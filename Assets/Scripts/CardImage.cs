@@ -9,13 +9,5 @@ public class CardImage : MonoBehaviour
     public void SetImage(Sprite sprite)
     {
         image.sprite = sprite;
-    }
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-        
-    }
+    }    
 }

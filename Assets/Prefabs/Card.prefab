@@ -49,9 +49,9 @@ MonoBehaviour:
   card:
     type: 0
     state: 0
-  invisible: {fileID: 21300000, guid: b44efad00d01f42c98a12527efe12b4e, type: 3}
   visible: {fileID: 0}
   disabled: {fileID: 0}
+  invisible: {fileID: 21300000, guid: b44efad00d01f42c98a12527efe12b4e, type: 3}
   showTime: 0.5
 --- !u!212 &4507645332644053480
 SpriteRenderer:
