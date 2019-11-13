@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MatchesUIController : MonoBehaviour
@@ -7,7 +6,8 @@ public class MatchesUIController : MonoBehaviour
     [SerializeField] GameObject prefab;
     [SerializeField] Transform container;
     [SerializeField] PuzzleCreator creator;
-    
+    readonly Notifier notifier = new Notifier();
+
     public void AddMatch(int type)
     {
         GameObject newMatch = Instantiate(prefab, container);
@@ -16,6 +16,21 @@ public class MatchesUIController : MonoBehaviour
     }
     void Start()
     {
-        
+        notifier.Subscribe(Pair.ON_MATCHED, HandleOnMatched);
+        //StartCoroutine(TestCoroutine());
     }
+    void OnDestroy()
+    {
+        notifier.UnsubcribeAll();
+    }
+    private void HandleOnMatched(params object[] args)
+    {
+        int type = (int)args[0];
+        AddMatch(type);
+    }
+    //private IEnumerator TestCoroutine()
+    //{
+    //    yield return new WaitForSeconds(1f);
+    //    AddMatch(5);
+    //}
 }
