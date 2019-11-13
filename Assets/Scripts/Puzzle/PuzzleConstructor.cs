@@ -9,7 +9,7 @@ public struct CardSprite
     public Sprite unlocked;
     public Sprite locked;
 }
-public class PuzzleCreator : MonoBehaviour
+public class PuzzleConstructor: MonoBehaviour
 {
     // Card objects    
     [SerializeField] GameObject cardPrefab;
@@ -19,7 +19,8 @@ public class PuzzleCreator : MonoBehaviour
     [SerializeField] int columns;
     [SerializeField] Vector2 spacing;
     // Assets
-    [HideInInspector] public List<CardSprite> sprites;
+    [HideInInspector]
+    public List<CardSprite> sprites;
     Sprite[] unlocked;
     Sprite[] locked;
     
