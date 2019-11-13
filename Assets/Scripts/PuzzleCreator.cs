@@ -15,7 +15,7 @@ public class PuzzleCreator : MonoBehaviour
     [SerializeField] GameObject cardPrefab;
     List<GameObject> cards = new List<GameObject>();
     // Puzzle parameters    
-    [SerializeField] [Range(5, 35)] int pairs;
+    [Range(5, 35)] public int pairs;
     [SerializeField] int columns;
     [SerializeField] Vector2 spacing;
     // Assets

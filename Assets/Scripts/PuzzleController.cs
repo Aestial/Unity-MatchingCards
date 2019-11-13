@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class Pair
@@ -32,18 +32,25 @@ public class Pair
 public class Puzzle
 {
     public bool inProgress;
+    public int pairs;
     public int moves;
-    public float time;
+    public int seconds;
 }
 
 public class PuzzleController : MonoBehaviour
 {
-    Puzzle puzzle = new Puzzle();
+    //[SerializeField] Text scoreText;
+    //[SerializeField] Text timeText;
+    //[SerializeField] string scorePrefix;
+    //[SerializeField] string timePrefix;
+
+    public Puzzle puzzle = new Puzzle();
     Pair pair = new Pair();
     public void CheckCard(CardController cc)
     {
         Debug.Log("Checking Card: " + cc.card.type);
         puzzle.moves++;
+        //scoreText.text = scorePrefix + puzzle.moves;
         switch(pair.count)
         {
             case 0:
@@ -55,14 +62,31 @@ public class PuzzleController : MonoBehaviour
                 pair.count = 0;
                 pair.CheckMatch();
                 break;
-        }        
-    }
+        }
+    }    
     void Start()
     {
-        puzzle.inProgress = true;    
+        PuzzleCreator creator = GetComponent<PuzzleCreator>();
+        puzzle.pairs = creator.pairs;
+        puzzle.inProgress = true;        
+        StartCoroutine(UpdateTimerCoroutine());
+        //InvokeRepeating("UpdateTimer", 0f, 1f);
     }
-    void Update()
+    private IEnumerator UpdateTimerCoroutine()
     {
-        puzzle.time += Time.deltaTime;        
-    }    
+        while (puzzle.inProgress)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            puzzle.seconds++;
+            //timeText.text = timePrefix + ++puzzle.seconds;
+        }
+    }
+    //void Update()
+    //{
+    //    puzzle.time += Time.deltaTime;
+    //}
+    //private void UpdateTimer()
+    //{        
+    //    timeText.text = timePrefix + ++puzzle.time;
+    //}
 }
