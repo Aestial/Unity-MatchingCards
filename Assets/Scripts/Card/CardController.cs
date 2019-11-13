@@ -1,21 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-
-public enum CardState
-{
-    Invisible,
-    Visible,
-    Disabled
-}
-
-[Serializable]
-public class Card
-{
-    public int type;
-    public CardState state;
-    //public int pairId;
-}
 
 public class CardController : MonoBehaviour
 {
@@ -25,7 +9,7 @@ public class CardController : MonoBehaviour
     [SerializeField] Sprite invisible;
     [SerializeField] float showTime;
     PuzzleController puzzle;
-    SpriteRenderer sr;    
+    SpriteRenderer sr;
     public CardState State
     {
         get { return card.state; }
