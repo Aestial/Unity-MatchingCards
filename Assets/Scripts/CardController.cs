@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum CardState
@@ -20,13 +19,13 @@ public class Card
 
 public class CardController : MonoBehaviour
 {
-    public Card card = new Card();
-    public Sprite invisible;
+    public Card card = new Card();    
     public Sprite visible;
     public Sprite disabled;
+    [SerializeField] Sprite invisible;
     [SerializeField] float showTime;
-    new SpriteRenderer renderer;
     PuzzleController puzzle;
+    SpriteRenderer sr;    
     public CardState State
     {
         get { return card.state; }
@@ -39,7 +38,7 @@ public class CardController : MonoBehaviour
     void Start()
     {
         puzzle = FindObjectOfType<PuzzleController>();
-        renderer = GetComponent<SpriteRenderer>();
+        sr = GetComponent<SpriteRenderer>();
         State = CardState.Invisible;
     }
     void OnMouseUp()
@@ -64,13 +63,13 @@ public class CardController : MonoBehaviour
         switch (state)
         {
             case CardState.Invisible:
-                renderer.sprite = invisible;
+                sr.sprite = invisible;
                 break;
             case CardState.Visible:
-                renderer.sprite = visible;
+                sr.sprite = visible;
                 break;
             case CardState.Disabled:
-                renderer.sprite = disabled;
+                sr.sprite = disabled;
                 break;
         }
     }
