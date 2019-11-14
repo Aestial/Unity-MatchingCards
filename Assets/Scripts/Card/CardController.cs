@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class CardController : MonoBehaviour
 {
-    public Card card = new Card();    
+    public Card card = new Card();
     public Sprite visible;
     public Sprite disabled;
     [SerializeField] Sprite invisible;
     [SerializeField] float showTime;
-    PuzzleController puzzle;
     SpriteRenderer sr;
+    Notifier notifier = new Notifier();
+    public const string ON_FLIPPED = "OnFlipped";   
+
     public CardState State
     {
         get { return card.state; }
@@ -21,7 +23,6 @@ public class CardController : MonoBehaviour
     }
     void Start()
     {
-        puzzle = FindObjectOfType<PuzzleController>();
         sr = GetComponent<SpriteRenderer>();
         State = CardState.Invisible;
     }
@@ -30,7 +31,7 @@ public class CardController : MonoBehaviour
         if(State == CardState.Invisible)
         {
             State = CardState.Visible;
-            puzzle.CheckCard(this);
+            notifier.Notify(ON_FLIPPED, this);
         }
     }
     public void Flipback()
