@@ -2893,7 +2893,8 @@ MonoBehaviour:
   timePrefix: 'Time: '
   puzzle:
     inProgress: 0
-    pairs: 0
+    matches: 
+    totalPairs: 0
     moves: 0
     seconds: 0
 --- !u!114 &2048490308
@@ -2910,7 +2911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4708691066138611343, guid: 0d2656d2f84f944609ca4ea279520265, type: 3}
   container: {fileID: 463879363}
-  creator: {fileID: 2048490305}
+  constructor: {fileID: 2048490305}
 --- !u!1 &2110929742
 GameObject:
   m_ObjectHideFlags: 0
