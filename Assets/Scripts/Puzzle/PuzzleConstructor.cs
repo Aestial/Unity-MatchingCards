@@ -11,10 +11,10 @@ public struct CardSprite
 }
 public class PuzzleConstructor: MonoBehaviour
 {
-    // Card objects    
+    // Card GameObjects
     [SerializeField] GameObject cardPrefab;
     List<GameObject> cards = new List<GameObject>();
-    // Puzzle parameters    
+    // Puzzle parameters
     [Range(5, 35)] public int pairs;
     [SerializeField] int columns;
     [SerializeField] Vector2 spacing;
@@ -23,12 +23,21 @@ public class PuzzleConstructor: MonoBehaviour
     public List<CardSprite> sprites;
     Sprite[] unlocked;
     Sprite[] locked;
-    
+    // Puzzle
+    Puzzle puzzle;
+
     void Start()
-    {
+    {        
+        GetPuzzle();
         RetrieveAssets();
         CreateCards();
         PlaceCards();
+        SetPuzzle();
+    }
+    private void GetPuzzle()
+    {        
+        PuzzleController controller = GetComponent<PuzzleController>();
+        puzzle = controller.puzzle;        
     }
     private void RetrieveAssets()
     {
@@ -50,10 +59,10 @@ public class PuzzleConstructor: MonoBehaviour
             for (int j = 0; j < 2; j++)
             {
                 GameObject newCard = Instantiate(cardPrefab, transform);
-                CardController controller = newCard.GetComponent<CardController>();
-                controller.card.type = i;
-                controller.visible = sprites[i].unlocked;
-                controller.disabled = sprites[i].locked;                
+                CardController cc = newCard.GetComponent<CardController>();
+                cc.card.type = i;
+                cc.visible = sprites[i].unlocked;
+                cc.disabled = sprites[i].locked;
                 cards.Add(newCard);
             }
         }
@@ -66,10 +75,20 @@ public class PuzzleConstructor: MonoBehaviour
         {
             Vector3 position = new Vector3(i % columns, i / columns);
             position *= spacing;
-            cards[i].transform.localPosition = position;
+            cards[i].transform.localPosition = position;            
         }
         Vector3 offset = new Vector3((columns - 1) / 2.0f, (cards.Count - 1) / columns / 2.0f);
         offset *= spacing;
         transform.position -= offset;
+    }
+    private void SetPuzzle()
+    {        
+        for (int i = 0; i < cards.Count; i++)
+        {
+            Card card = cards[i].GetComponent<CardController>().card;
+            puzzle.cards.Add(card);
+        }
+        puzzle.totalPairs = pairs;
+        puzzle.inProgress = true;
     }
 }
