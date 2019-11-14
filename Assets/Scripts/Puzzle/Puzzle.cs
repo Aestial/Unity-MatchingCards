@@ -5,13 +5,12 @@ using System.Collections.Generic;
 public class Puzzle
 {
     public bool inProgress;
+    public List<Card> cards;
     public List<int> matches;
     public int totalPairs;
     public int moves;
     public int seconds;
 }
-
-//[Serializable]
 public class Pair
 {
     public CardController one;
