@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,12 +10,23 @@ public class PuzzleController : MonoBehaviour
     [SerializeField] string timePrefix;
     public Puzzle puzzle = new Puzzle();
     readonly Pair pair = new Pair();
-
-    public void CheckCard(CardController cc)
+    Notifier notifier = new Notifier();
+    
+    void Start()
     {
-        Debug.Log("Checking Card: " + cc.card.type);
+        notifier.Subscribe(CardController.ON_FLIPPED, HandleOnFlipped);
+        StartCoroutine(UpdateTimerCoroutine());        
+    }
+    private void HandleOnFlipped(params object[] args)
+    {
+        CardController cardController = (CardController)args[0];
+        CheckCard(cardController);
         puzzle.moves++;
         scoreText.text = scorePrefix + puzzle.moves;
+    }
+    private void CheckCard(CardController cc)
+    {
+        Debug.Log("Checking Card: " + cc.card.type);        
         switch (pair.count)
         {
             case 0:
@@ -35,13 +45,6 @@ public class PuzzleController : MonoBehaviour
                 break;
         }
     }
-    void Start()
-    {
-        PuzzleConstructor constructor = GetComponent<PuzzleConstructor>();
-        puzzle.totalPairs = pc.pairs;
-        puzzle.inProgress = true;        
-        StartCoroutine(UpdateTimerCoroutine());    
-    }
     private void UpdateMatches(int match)
     {
         puzzle.matches.Add(match);
@@ -57,9 +60,5 @@ public class PuzzleController : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
             timeText.text = timePrefix + ++puzzle.seconds;
         }
-    }
-    //void Update()
-    //{
-    //    puzzle.time += Time.deltaTime;
-    //}
+    }    
 }
