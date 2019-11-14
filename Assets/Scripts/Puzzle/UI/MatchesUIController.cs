@@ -5,14 +5,14 @@ public class MatchesUIController : MonoBehaviour
 {
     [SerializeField] GameObject prefab;
     [SerializeField] Transform container;
-    [SerializeField] PuzzleCreator creator;
+    [SerializeField] PuzzleConstructor constructor;
     readonly Notifier notifier = new Notifier();
 
     public void AddMatch(int type)
     {
         GameObject newMatch = Instantiate(prefab, container);
         CardImage cardImage = newMatch.GetComponent<CardImage>();
-        cardImage.SetImage(creator.sprites[type].unlocked);
+        cardImage.SetImage(constructor.sprites[type].unlocked);
     }
     void Start()
     {
