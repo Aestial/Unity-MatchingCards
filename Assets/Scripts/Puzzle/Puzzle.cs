@@ -17,24 +17,3 @@ public class Puzzle
         matches = new List<int>();
     }
 }
-public class Pair
-{
-    public CardController one;
-    public CardController two;
-    public int count;
-    readonly Notifier notifier = new Notifier();
-    public const string ON_MATCHED = "OnMatched";
-    public int CheckMatch()
-    {
-        if (one.Card.type == two.Card.type)
-        {
-            //Matched!!!
-            notifier.Notify(ON_MATCHED, one.Card.type);
-            return one.Card.type;
-        }
-        // Flipback
-        one.Flipback();
-        two.Flipback();
-        return -1;
-    }
-}
