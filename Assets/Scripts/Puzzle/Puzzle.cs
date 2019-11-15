@@ -3,29 +3,34 @@ using System.Collections.Generic;
 
 [Serializable]
 public class Puzzle
-{
+{   
+    public Card[] cards;
     public bool inProgress;
-    public List<Card> cards;
-    public List<int> matches;
-    public int totalPairs;
+    public int pairs;
     public int moves;
     public int seconds;
+    public List<int> matches;
+    public Puzzle (Card[] cards)
+    {
+        this.cards = cards;
+        pairs = cards.Length / 2;
+        matches = new List<int>();
+    }
 }
 public class Pair
 {
     public CardController one;
     public CardController two;
     public int count;
-    public bool match;
-    Notifier notifier = new Notifier();
+    readonly Notifier notifier = new Notifier();
     public const string ON_MATCHED = "OnMatched";
     public int CheckMatch()
     {
-        if (one.card.type == two.card.type)
+        if (one.Card.type == two.Card.type)
         {
             //Matched!!!
-            notifier.Notify(ON_MATCHED, one.card.type);
-            return one.card.type;
+            notifier.Notify(ON_MATCHED, one.Card.type);
+            return one.Card.type;
         }
         // Flipback
         one.Flipback();
