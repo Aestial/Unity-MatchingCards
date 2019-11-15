@@ -3,20 +3,32 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PuzzleController : MonoBehaviour
-{
+{    
     [SerializeField] Text scoreText;
     [SerializeField] Text timeText;
     [SerializeField] string scorePrefix;
     [SerializeField] string timePrefix;
-    public Puzzle puzzle = new Puzzle();
     readonly Pair pair = new Pair();
-    Notifier notifier = new Notifier();
-    
-    void Start()
+    readonly Notifier notifier = new Notifier();
+    [SerializeField] Puzzle puzzle;
+    public Puzzle Puzzle
+    {
+        get { return puzzle; }
+        set
+        {
+            puzzle = value;
+            puzzle.inProgress = true;
+            StartCoroutine(UpdateTimerCoroutine());
+        }
+    }
+    void Awake()
     {
         notifier.Subscribe(CardController.ON_FLIPPED, HandleOnFlipped);
-        StartCoroutine(UpdateTimerCoroutine());        
     }
+    void OnDestroy()
+    {
+        notifier.UnsubcribeAll();        
+    }    
     private void HandleOnFlipped(params object[] args)
     {
         CardController cardController = (CardController)args[0];
@@ -26,7 +38,7 @@ public class PuzzleController : MonoBehaviour
     }
     private void CheckCard(CardController cc)
     {
-        Debug.Log("Checking Card: " + cc.card.type);        
+        Debug.Log("Checking Card: " + cc.Card.type);
         switch (pair.count)
         {
             case 0:
@@ -48,7 +60,7 @@ public class PuzzleController : MonoBehaviour
     private void UpdateMatches(int match)
     {
         puzzle.matches.Add(match);
-        if (puzzle.matches.Count >= puzzle.totalPairs)
+        if (puzzle.matches.Count >= puzzle.pairs)
         {
             puzzle.inProgress = false;
         }
