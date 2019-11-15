@@ -69,7 +69,7 @@ public class CardController : MonoBehaviour
     }
     private void SetSprites(int type)
     {
-        visible = AssetsManager.Instance.sprites[type].unlocked;
-        disabled = AssetsManager.Instance.sprites[type].locked;
+        visible = CardSprites.Instance.sprites[type].unlocked;
+        disabled = CardSprites.Instance.sprites[type].locked;
     }
 }

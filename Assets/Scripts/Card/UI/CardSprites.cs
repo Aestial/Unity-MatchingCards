@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AssetsManager : Singleton<AssetsManager>
+public class CardSprites : Singleton<CardSprites>
 {
     public struct CardSprite
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardImage : MonoBehaviour
+public class CardUI : MonoBehaviour
 {
     [SerializeField] Image image;
     public void SetImage(Sprite sprite)
