@@ -2,22 +2,46 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+public class Pair
+{
+    public CardController one;
+    public CardController two;
+    public int count;
+    readonly Notifier notifier = new Notifier();
+    public const string ON_MATCHED = "OnMatched";
+    public int CheckMatch()
+    {
+        if (one.Card.type == two.Card.type)
+        {
+            //Matched!!!
+            notifier.Notify(ON_MATCHED, one.Card.type);
+            return one.Card.type;
+        }
+        // Flipback
+        one.Flipback();
+        two.Flipback();
+        return -1;
+    }
+}
+
 public class PuzzleController : MonoBehaviour
 {    
     [SerializeField] Text scoreText;
     [SerializeField] Text timeText;
     [SerializeField] string scorePrefix;
     [SerializeField] string timePrefix;
-    readonly Pair pair = new Pair();
-    readonly Notifier notifier = new Notifier();
     [SerializeField] Puzzle puzzle;
+    readonly Pair pair = new Pair();
+    // Notifier
+    readonly Notifier notifier = new Notifier();
     public Puzzle Puzzle
     {
         get { return puzzle; }
         set
         {
             puzzle = value;
-            puzzle.inProgress = true;
+            // TODO: Validate
+            puzzle.inProgress = true;            
             StartCoroutine(UpdateTimerCoroutine());
         }
     }
@@ -29,7 +53,7 @@ public class PuzzleController : MonoBehaviour
     {
         notifier.UnsubcribeAll();        
     }    
-    private void HandleOnFlipped(params object[] args)
+    private void HandleOnFlipped(object[] args)
     {
         CardController cardController = (CardController)args[0];
         CheckCard(cardController);
@@ -63,6 +87,7 @@ public class PuzzleController : MonoBehaviour
         if (puzzle.matches.Count >= puzzle.pairs)
         {
             puzzle.inProgress = false;
+            // TODO FINISHED
         }
     }
     private IEnumerator UpdateTimerCoroutine()
