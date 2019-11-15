@@ -62,7 +62,7 @@ public class PuzzleController : MonoBehaviour
     }
     private void CheckCard(CardController cc)
     {
-        Debug.Log("Checking Card: " + cc.Card.type);
+        //Debug.Log("Checking Card: " + cc.Card.type);
         switch (pair.count)
         {
             case 0:

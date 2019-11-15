@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
+using UnityEngine;
 
 public class PuzzleLoader: MonoBehaviour
 {
@@ -31,10 +31,10 @@ public class PuzzleLoader: MonoBehaviour
     }    
     private void Save()
     {
-        Debug.Log(filePath);
+        //Debug.Log(filePath);
         string json = JsonUtility.ToJson(puzzle);
         File.WriteAllText(filePath, json);
-        Debug.Log(json);
+        //Debug.Log(json);
     }
     private Puzzle Get()
     {        
