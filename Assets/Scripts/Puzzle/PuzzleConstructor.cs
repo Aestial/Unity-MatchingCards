@@ -1,94 +1,97 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System;
 
-[Serializable]
-public struct CardSprite
-{
-    public Sprite unlocked;
-    public Sprite locked;
-}
 public class PuzzleConstructor: MonoBehaviour
 {
+    // Parameters
+    [Range(5, 35)] public int pairs;
     // Card GameObjects
     [SerializeField] GameObject cardPrefab;
-    List<GameObject> cards = new List<GameObject>();
-    // Puzzle parameters
-    [Range(5, 35)] public int pairs;
+    // Placing parameters
     [SerializeField] int columns;
     [SerializeField] Vector2 spacing;
     // Assets
-    [HideInInspector]
-    public List<CardSprite> sprites;
-    Sprite[] unlocked;
-    Sprite[] locked;
-    // Puzzle
+    [SerializeField] string fileName;
+    string filePath;
     Puzzle puzzle;
-
+    PuzzleController controller;
+    void Awake()
+    {
+        controller = GetComponent<PuzzleController>();
+        filePath = Path.Combine(Application.persistentDataPath, fileName);
+    }
     void Start()
     {        
-        GetPuzzle();
-        RetrieveAssets();
-        CreateCards();
-        PlaceCards();
-        SetPuzzle();
+        puzzle = Get();
+        GameObject[] cardGOs = CreateCardsGO(puzzle.cards);
+        PlaceCards(cardGOs);
+        controller.Puzzle = puzzle;
     }
-    private void GetPuzzle()
+    void OnApplicationQuit()
+    {
+        Save();
+    }    
+    private void Save()
+    {
+        Debug.Log(filePath);
+        string json = JsonUtility.ToJson(puzzle);
+        File.WriteAllText(filePath, json);
+        Debug.Log(json);
+    }
+    private Puzzle Get()
     {        
-        PuzzleController controller = GetComponent<PuzzleController>();
-        puzzle = controller.puzzle;        
+        return File.Exists(filePath) ? Load() : Create();
     }
-    private void RetrieveAssets()
+    private Puzzle Load()
     {
-        unlocked = Resources.LoadAll<Sprite>("Sprites/Cards");
-        locked = Resources.LoadAll<Sprite>("Sprites/Locked");
-        // Get sprites depending on desired number of pairs, max 35
+        string json = File.ReadAllText(filePath);
+        return JsonUtility.FromJson<Puzzle>(json);       
+    }
+    private Puzzle Create()
+    {
+        Card[] cards = CreateCards();
+        puzzle = new Puzzle(cards);
+        return puzzle;
+    }
+    private Card[] CreateCards()
+    {
+        List<Card> cards = new List<Card>();
         for (int i = 0; i < pairs; i++)
-        {
-            var sprite = new CardSprite();
-            sprite.unlocked = unlocked[i];
-            sprite.locked = locked[i];
-            sprites.Add(sprite);
-        }
-    }
-    private void CreateCards()
-    {
-        for(int i = 0; i < pairs; i++)
         {
             for (int j = 0; j < 2; j++)
             {
-                GameObject newCard = Instantiate(cardPrefab, transform);
-                CardController cc = newCard.GetComponent<CardController>();
-                cc.card.type = i;
-                cc.visible = sprites[i].unlocked;
-                cc.disabled = sprites[i].locked;
+                Card newCard = new Card(i);
                 cards.Add(newCard);
             }
-        }
-        // Random order
+        }        
         ListExtensions.Shuffle(cards);
+        return cards.ToArray();
     }
-    private void PlaceCards()
+    private GameObject[] CreateCardsGO(Card[] cards)
     {
-        for (int i = 0; i < cards.Count; i++)
+        List<GameObject> cardGOList = new List<GameObject>();
+        for (int i = 0; i < cards.Length; i++)
+        {   
+            GameObject newCard = Instantiate(cardPrefab, transform);
+            CardController cc = newCard.GetComponent<CardController>();
+            cc.Card = cards[i];            
+            cardGOList.Add(newCard);
+        }
+        return cardGOList.ToArray();
+    }
+    private void PlaceCards(GameObject[] gameObjects)
+    {
+        int length = gameObjects.Length;
+        for (int i = 0; i < length; i++)
         {
             Vector3 position = new Vector3(i % columns, i / columns);
             position *= spacing;
-            cards[i].transform.localPosition = position;            
+            gameObjects[i].transform.localPosition = position;
         }
-        Vector3 offset = new Vector3((columns - 1) / 2.0f, (cards.Count - 1) / columns / 2.0f);
+        Vector3 offset = new Vector3((columns - 1) / 2.0f, (length - 1) / columns / 2.0f);
         offset *= spacing;
         transform.position -= offset;
-    }
-    private void SetPuzzle()
-    {        
-        for (int i = 0; i < cards.Count; i++)
-        {
-            Card card = cards[i].GetComponent<CardController>().card;
-            puzzle.cards.Add(card);
-        }
-        puzzle.totalPairs = pairs;
-        puzzle.inProgress = true;
     }
 }
