@@ -2,16 +2,26 @@
 using UnityEngine;
 
 public class CardController : MonoBehaviour
-{
-    public Card card = new Card();
+{    
     public Sprite visible;
     public Sprite disabled;
     [SerializeField] Sprite invisible;
     [SerializeField] float showTime;
+    Card card;
     SpriteRenderer sr;
-    Notifier notifier = new Notifier();
-    public const string ON_FLIPPED = "OnFlipped";   
-
+    // Notifier
+    readonly Notifier notifier = new Notifier();
+    public const string ON_FLIPPED = "OnFlipped";    
+    public Card Card
+    {
+        get { return card; }
+        set
+        {
+            card = value;
+            SetSprites(card.type);
+            State = card.state;
+        }
+    }
     public CardState State
     {
         get { return card.state; }
@@ -21,10 +31,9 @@ public class CardController : MonoBehaviour
             Draw(value);
         }
     }
-    void Start()
+    void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        State = CardState.Invisible;
     }
     void OnMouseUp()
     {
@@ -57,5 +66,10 @@ public class CardController : MonoBehaviour
                 sr.sprite = disabled;
                 break;
         }
+    }
+    private void SetSprites(int type)
+    {
+        visible = AssetsManager.Instance.sprites[type].unlocked;
+        disabled = AssetsManager.Instance.sprites[type].locked;
     }
 }
