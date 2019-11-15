@@ -28,7 +28,7 @@ public class PuzzleLoader: MonoBehaviour
     void OnApplicationQuit()
     {
         Save();
-    }    
+    }
     private void Save()
     {
         //Debug.Log(filePath);
@@ -48,8 +48,7 @@ public class PuzzleLoader: MonoBehaviour
     private Puzzle Create()
     {
         Card[] cards = CreateCards();
-        puzzle = new Puzzle(cards);
-        return puzzle;
+        return new Puzzle(cards);        
     }
     private Card[] CreateCards()
     {
