@@ -12,5 +12,9 @@ public class Card
 {
     public int type;
     public CardState state;
-    //public int pairId;
+    public Card(int type, CardState state = CardState.Invisible)
+    {
+        this.type = type;
+        this.state = state;
+    }
 }
