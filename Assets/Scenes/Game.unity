@@ -2835,7 +2835,9 @@ GameObject:
   - component: {fileID: 2048490306}
   - component: {fileID: 2048490305}
   - component: {fileID: 2048490307}
+  - component: {fileID: 2048490310}
   - component: {fileID: 2048490308}
+  - component: {fileID: 2048490309}
   m_Layer: 0
   m_Name: PuzzleManager
   m_TagString: Untagged
@@ -2855,12 +2857,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c264e892042f40c6bf835ad6215d010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 4507645332644053481, guid: 8d2218ee34e884cbfb88d986e0686fa6,
-    type: 3}
-  pairs: 14
-  columns: 7
-  spacing: {x: 1.5, y: 1.75}
-  sprites: []
+  fileName: puzzle.json
+  pairs: 6
 --- !u!4 &2048490306
 Transform:
   m_ObjectHideFlags: 0
@@ -2892,11 +2890,12 @@ MonoBehaviour:
   scorePrefix: 'Player score: '
   timePrefix: 'Time: '
   puzzle:
+    cards: []
     inProgress: 0
-    matches: 
-    totalPairs: 0
+    pairs: 0
     moves: 0
     seconds: 0
+    matches: 
 --- !u!114 &2048490308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2911,7 +2910,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4708691066138611343, guid: 0d2656d2f84f944609ca4ea279520265, type: 3}
   container: {fileID: 463879363}
-  constructor: {fileID: 2048490305}
+--- !u!114 &2048490309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048490304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df0005701c6bb438aacdf763d1018ec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2048490310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048490304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ed6693a07d14d5788e45fcfca0d296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardPrefab: {fileID: 4507645332644053481, guid: 8d2218ee34e884cbfb88d986e0686fa6,
+    type: 3}
+  columns: 3
+  spacing: {x: 1.5, y: 1.75}
 --- !u!1 &2110929742
 GameObject:
   m_ObjectHideFlags: 0
