@@ -35,7 +35,7 @@ public class MatchesUI : MonoBehaviour
     private void AddMatch(int type)
     {
         GameObject newMatch = Instantiate(prefab, container);
-        CardUI cardImage = newMatch.GetComponent<CardUI>();
-        cardImage.SetImage(CardSprites.Instance.sprites[type].unlocked);
+        CardUI cardUI = newMatch.GetComponent<CardUI>();
+        cardUI.Set(CardSprites.Instance.sprites[type].unlocked);
     }
 }

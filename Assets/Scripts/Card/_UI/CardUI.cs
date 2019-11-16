@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CardUI : MonoBehaviour
 {
     [SerializeField] Image image;
-    public void SetImage(Sprite sprite)
+    public void Set(Sprite sprite)
     {
         image.sprite = sprite;
     }    

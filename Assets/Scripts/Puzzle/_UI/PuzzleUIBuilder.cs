@@ -10,8 +10,6 @@ public class PuzzleUIBuilder : MonoBehaviour
     [SerializeField] Vector2 spacing;
     // Notifier
     readonly Notifier notifier = new Notifier();
-    public const string ON_LOADED = "OnLoaded";
-
     void Awake()
     {
         notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);
