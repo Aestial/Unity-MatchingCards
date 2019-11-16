@@ -8,8 +8,7 @@ public class PuzzleLoader: MonoBehaviour
     [SerializeField] string fileName;
     string filePath;
     // Build parameters
-    [Range(5, 35)] public int pairs;        
-    // Puzzle
+    [Range(2, 35)] public int pairs;   
     Puzzle puzzle;
     // Notifier
     readonly Notifier notifier = new Notifier();
@@ -31,7 +30,6 @@ public class PuzzleLoader: MonoBehaviour
     }
     private void Save()
     {
-        //Debug.Log(filePath);
         string json = JsonUtility.ToJson(puzzle);
         File.WriteAllText(filePath, json);
         //Debug.Log(json);
