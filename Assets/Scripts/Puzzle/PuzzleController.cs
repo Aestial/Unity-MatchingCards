@@ -2,28 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Pair
-{
-    public CardController one;
-    public CardController two;
-    public int count;
-    readonly Notifier notifier = new Notifier();
-    public const string ON_MATCHED = "OnMatched";
-    public int CheckMatch()
-    {
-        if (one.Card.type == two.Card.type)
-        {
-            //Matched!!!
-            notifier.Notify(ON_MATCHED, one.Card.type);
-            return one.Card.type;
-        }
-        // Flipback
-        one.Flipback();
-        two.Flipback();
-        return -1;
-    }
-}
-
 public class PuzzleController : MonoBehaviour
 {    
     [SerializeField] Text scoreText;
@@ -34,6 +12,7 @@ public class PuzzleController : MonoBehaviour
     readonly Pair pair = new Pair();
     // Notifier
     readonly Notifier notifier = new Notifier();
+    public const string ON_FINISHED = "OnFinished";
     public Puzzle Puzzle
     {
         get { return puzzle; }
@@ -62,7 +41,6 @@ public class PuzzleController : MonoBehaviour
     }
     private void CheckCard(CardController cc)
     {
-        //Debug.Log("Checking Card: " + cc.Card.type);
         switch (pair.count)
         {
             case 0:
@@ -84,10 +62,14 @@ public class PuzzleController : MonoBehaviour
     private void UpdateMatches(int match)
     {
         puzzle.matches.Add(match);
-        if (puzzle.matches.Count >= puzzle.pairs)
+        int score = puzzle.matches.Count;        
+        if (score >= puzzle.pairs)
         {
             puzzle.inProgress = false;
-            // TODO FINISHED
+            int time = puzzle.seconds;
+            User user = new User();
+            Game game = new Game(user, score, time);
+            notifier.Notify(ON_FINISHED, game);
         }
     }
     private IEnumerator UpdateTimerCoroutine()
@@ -98,4 +80,25 @@ public class PuzzleController : MonoBehaviour
             timeText.text = timePrefix + ++puzzle.seconds;
         }
     }    
+}
+public class Pair
+{
+    public CardController one;
+    public CardController two;
+    public int count;
+    readonly Notifier notifier = new Notifier();
+    public const string ON_MATCHED = "OnMatched";
+    public int CheckMatch()
+    {
+        if (one.Card.type == two.Card.type)
+        {
+            //Matched!!!
+            notifier.Notify(ON_MATCHED, one.Card.type);
+            return one.Card.type;
+        }
+        // Flipback
+        one.Flipback();
+        two.Flipback();
+        return -1;
+    }
 }
