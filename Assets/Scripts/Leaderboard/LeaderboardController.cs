@@ -1,36 +1,35 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LeaderboardController : MonoBehaviour
-{
-    // Persistence file
-    [SerializeField] string fileName;
-    string filePath;
-    Leaderboard leaderboard;
+{    
+    [SerializeField] Leaderboard leaderboard;    
     // Notifier
     readonly Notifier notifier = new Notifier();
+    public Leaderboard Leaderboard
+    {
+        get { return leaderboard; }
+        set
+        {
+            leaderboard = value;
+            //gameList = new List<Game>(leaderboard.games);
+        }
+    }
     void Awake()
     {
-        filePath = Path.Combine(Application.persistentDataPath, fileName);
+        notifier.Subscribe(PuzzleController.ON_FINISHED, HandleOnFinished);
     }
-    void Start()
+    void OnDestroy()
     {
-        leaderboard = Get();
-        //notifier.Notify(ON_LOADED, puzzle);        
+        notifier.UnsubcribeAll();    
     }
-    private Leaderboard Get()
+    private void HandleOnFinished(object[] args)
     {
-        return File.Exists(filePath) ? Load() : Create();
+        Game game = (Game)args[0];
+        AddGame(game);
     }
-    private Leaderboard Load()
+    private void AddGame(Game game)
     {
-        string json = File.ReadAllText(filePath);
-        return JsonUtility.FromJson<Leaderboard>(json);
-    }
-    private Leaderboard Create()
-    {
-        Card[] cards = CreateCards();
-        puzzle = new Puzzle(cards);
-        return puzzle;
-    }
+        leaderboard.games.Add(game);        
+    }        
 }
