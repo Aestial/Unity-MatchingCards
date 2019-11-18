@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MatchesUI : MonoBehaviour
 {
@@ -8,7 +7,7 @@ public class MatchesUI : MonoBehaviour
     readonly Notifier notifier = new Notifier();
     void Awake()
     {
-        notifier.Subscribe(Pair.ON_MATCHED, HandleOnMatched);
+        notifier.Subscribe(PairController.ON_MATCHED, HandleOnMatched);
         notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);
     }
     void OnDestroy()
