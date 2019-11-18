@@ -5,9 +5,10 @@ public class PuzzleUIBuilder : MonoBehaviour
 {
     // Card GameObjects
     [SerializeField] GameObject cardPrefab;
-    // Placing parameters
-    [SerializeField] int columns;
+    // Placing parameters    
+    [SerializeField] Vector2 offset;
     [SerializeField] Vector2 spacing;
+    [SerializeField] int columns;
     // Notifier
     readonly Notifier notifier = new Notifier();
     void Awake()
@@ -45,8 +46,9 @@ public class PuzzleUIBuilder : MonoBehaviour
             position *= spacing;
             gameObjects[i].transform.localPosition = position;
         }
-        Vector3 offset = new Vector3((columns - 1) / 2.0f, (length - 1) / columns / 2.0f);
-        offset *= spacing;
-        transform.position -= offset;
+        Vector3 centerOffset = new Vector3((columns - 1) / 2.0f, (length - 1) / columns / 2.0f);
+        centerOffset *= spacing;
+        transform.position -= centerOffset;
+        transform.position += new Vector3(offset.x, offset.y);
     }    
 }
