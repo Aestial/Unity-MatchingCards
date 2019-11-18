@@ -46,13 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85342e987e6734b75a2d1a9994021d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invisible: {fileID: 21300000, guid: b44efad00d01f42c98a12527efe12b4e, type: 3}
+  showTime: 0.5
   card:
     type: 0
     state: 0
   visible: {fileID: 0}
   disabled: {fileID: 0}
-  invisible: {fileID: 21300000, guid: b44efad00d01f42c98a12527efe12b4e, type: 3}
-  showTime: 0.5
 --- !u!212 &4507645332644053480
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -87,8 +87,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1980357919
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5eb265a0d82064e6081d9c584440a090, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
