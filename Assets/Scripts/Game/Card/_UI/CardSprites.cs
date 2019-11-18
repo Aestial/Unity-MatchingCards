@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CardSprites : Singleton<CardSprites>
 {
+    [Header("Directory path")]
+    [SerializeField] string unlockedPath;
+    [SerializeField] string lockedPath;
     public struct CardSprite
     {
         public Sprite unlocked;
@@ -17,8 +20,8 @@ public class CardSprites : Singleton<CardSprites>
     }
     private void RetrieveAssets()
     {
-        unlocked = Resources.LoadAll<Sprite>("Sprites/Cards");
-        locked = Resources.LoadAll<Sprite>("Sprites/Locked");
+        unlocked = Resources.LoadAll<Sprite>(unlockedPath);
+        locked = Resources.LoadAll<Sprite>(lockedPath);
         for (int i = 0; i < unlocked.Length; i++)
         {
             var sprite = new CardSprite();

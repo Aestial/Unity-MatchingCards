@@ -20,9 +20,10 @@ public class PuzzleController : MonoBehaviour
         set
         {
             puzzle = value;
-            // TODO: Validate
-            puzzle.inProgress = true;
+            // TODO: Validate            
             pairController.Set(puzzle.current);
+            SetScore(puzzle.moves);
+            StopAllCoroutines();
             StartCoroutine(UpdateTimerCoroutine());
         }
     }
@@ -37,9 +38,8 @@ public class PuzzleController : MonoBehaviour
     private void HandleOnFlipped(object[] args)
     {
         Card card = (Card)args[0];
-        CheckCard(card);
-        puzzle.moves++;
-        scoreText.text = scorePrefix + puzzle.moves;
+        CheckCard(card);        
+        SetScore(++puzzle.moves);
     }
     private void CheckCard(Card card)
     {
@@ -67,5 +67,9 @@ public class PuzzleController : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
             timeText.text = timePrefix + ++puzzle.seconds;
         }
-    }    
+    }
+    private void SetScore(int score)
+    {
+        scoreText.text = scorePrefix + score;
+    }
 }

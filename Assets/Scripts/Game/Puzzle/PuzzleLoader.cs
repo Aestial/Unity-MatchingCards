@@ -10,23 +10,32 @@ public class PuzzleLoader: MonoBehaviour
     // Build parameters
     [Range(2, 35)] public int pairs;   
     Puzzle puzzle;
+    PuzzleController controller;
     // Notifier
     readonly Notifier notifier = new Notifier();
     public const string ON_LOADED = "OnLoaded";
+    public const string ON_RESTART = "OnRestart";
+
     void Awake()
     {        
         filePath = Path.Combine(Application.persistentDataPath, fileName);
+        controller = GetComponent<PuzzleController>();
     }
     void Start()
-    {
-        PuzzleController controller = GetComponent<PuzzleController>();
+    {        
         puzzle = Get();        
-        notifier.Notify(ON_LOADED, puzzle);     
+        notifier.Notify(ON_LOADED, puzzle);  
         controller.Puzzle = puzzle;
     }
     void OnApplicationQuit()
     {
         Save();
+    }
+    public void Restart()
+    {
+        puzzle = Create();
+        notifier.Notify(ON_RESTART, puzzle);
+        controller.Puzzle = puzzle;
     }
     private void Save()
     {

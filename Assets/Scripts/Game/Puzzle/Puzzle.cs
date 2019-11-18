@@ -12,10 +12,11 @@ public class Puzzle
     public List<int> matches;
     public Pair current;
     public Puzzle (Card[] cards)
-    {
+    {        
         this.cards = cards;
         pairs = cards.Length / 2;
         current = new Pair();
         matches = new List<int>();
+        inProgress = true;
     }
 }

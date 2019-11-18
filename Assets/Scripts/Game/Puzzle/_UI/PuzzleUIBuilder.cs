@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleUIBuilder : MonoBehaviour
@@ -14,7 +15,8 @@ public class PuzzleUIBuilder : MonoBehaviour
     void Awake()
     {
         notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);
-    }
+        notifier.Subscribe(PuzzleLoader.ON_RESTART, HandleOnRestart);
+    }    
     void OnDestroy()
     {
         notifier.UnsubcribeAll();
@@ -23,7 +25,22 @@ public class PuzzleUIBuilder : MonoBehaviour
     {
         Puzzle puzzle = (Puzzle)args[0];
         GameObject[] cardGOs = CreateCardsGO(puzzle.cards);
-        PlaceCards(cardGOs);        
+        PlaceCards(cardGOs);
+    }
+    private void HandleOnRestart(object[] args)
+    {
+        Puzzle puzzle = (Puzzle)args[0];
+        DeleteCards();
+        GameObject[] cardGOs = CreateCardsGO(puzzle.cards);
+        PlaceCards(cardGOs);
+    }
+    private void DeleteCards()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject); 
+        }
+        ResetPlacement();
     }
     private GameObject[] CreateCardsGO(Card[] cards)
     {
@@ -50,5 +67,9 @@ public class PuzzleUIBuilder : MonoBehaviour
         centerOffset *= spacing;
         transform.position -= centerOffset;
         transform.position += new Vector3(offset.x, offset.y);
-    }    
+    }
+    private void ResetPlacement()
+    {
+        transform.position = Vector3.zero;
+    }
 }

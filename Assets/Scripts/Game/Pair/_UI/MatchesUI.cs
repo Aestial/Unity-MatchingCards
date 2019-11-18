@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MatchesUI : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MatchesUI : MonoBehaviour
     {
         notifier.Subscribe(PairController.ON_MATCHED, HandleOnMatched);
         notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);
+        notifier.Subscribe(PuzzleLoader.ON_RESTART, HandleOnRestart);
     }
     void OnDestroy()
     {
@@ -19,11 +21,15 @@ public class MatchesUI : MonoBehaviour
         Puzzle puzzle = (Puzzle)args[0];
         ShowMatches(puzzle.matches.ToArray());
     }
+    private void HandleOnRestart(object[] args)
+    {
+        DeleteMatches();
+    }
     private void HandleOnMatched(object[] args)
     {
         int type = (int)args[0];
         AddMatch(type);
-    }
+    }        
     private void ShowMatches(int[] matches)
     {
         for (int i = 0; i < matches.Length; i++)
@@ -36,5 +42,12 @@ public class MatchesUI : MonoBehaviour
         GameObject newMatch = Instantiate(prefab, container);
         CardUI cardUI = newMatch.GetComponent<CardUI>();
         cardUI.Set(CardSprites.Instance.sprites[type].unlocked);
+    }
+    private void DeleteMatches()
+    {
+        for (int i = 0; i < container.childCount; i++)
+        {
+            Destroy(container.GetChild(i).gameObject);
+        }
     }
 }
