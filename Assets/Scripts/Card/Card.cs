@@ -4,6 +4,7 @@ public enum CardState
 {
     Invisible,
     Visible,
+    Matched,
     Disabled
 }
 

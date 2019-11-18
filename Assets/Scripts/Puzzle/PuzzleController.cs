@@ -8,8 +8,9 @@ public class PuzzleController : MonoBehaviour
     [SerializeField] Text timeText;
     [SerializeField] string scorePrefix;
     [SerializeField] string timePrefix;
-    [SerializeField] Puzzle puzzle;
-    readonly Pair pair = new Pair();
+    [SerializeField] PairController pairController;
+    // SerializeField for watching on Inspector
+    [SerializeField] Puzzle puzzle;    
     // Notifier
     readonly Notifier notifier = new Notifier();
     public const string ON_FINISHED = "OnFinished";
@@ -20,7 +21,8 @@ public class PuzzleController : MonoBehaviour
         {
             puzzle = value;
             // TODO: Validate
-            puzzle.inProgress = true;            
+            puzzle.inProgress = true;
+            pairController.Set(puzzle.current);
             StartCoroutine(UpdateTimerCoroutine());
         }
     }
@@ -34,40 +36,26 @@ public class PuzzleController : MonoBehaviour
     }    
     private void HandleOnFlipped(object[] args)
     {
-        CardController cardController = (CardController)args[0];
-        CheckCard(cardController);
+        Card card = (Card)args[0];
+        CheckCard(card);
         puzzle.moves++;
         scoreText.text = scorePrefix + puzzle.moves;
     }
-    private void CheckCard(CardController cc)
+    private void CheckCard(Card card)
     {
-        switch (pair.count)
-        {
-            case 0:
-                pair.one = cc;
-                pair.count++;
-                break;
-            case 1:
-                pair.two = cc;
-                pair.count = 0;
-                int match = pair.CheckMatch();
-                if (match >= 0)
-                    UpdateMatches(match);
-                break;
-            default:
-                pair.one = pair.two = null;
-                break;
-        }
+        pairController.CheckCard(card, UpdateMatches);        
     }
     private void UpdateMatches(int match)
     {
         puzzle.matches.Add(match);
-        int score = puzzle.matches.Count;        
-        if (score >= puzzle.pairs)
+        int count = puzzle.matches.Count;
+        if (count >= puzzle.pairs)
         {
             puzzle.inProgress = false;
+            int score = puzzle.moves;
             int time = puzzle.seconds;
-            User user = new User();
+            // TODO: Check this
+            User user = new User("Player Name");
             Game game = new Game(user, score, time);
             notifier.Notify(ON_FINISHED, game);
         }
@@ -80,25 +68,4 @@ public class PuzzleController : MonoBehaviour
             timeText.text = timePrefix + ++puzzle.seconds;
         }
     }    
-}
-public class Pair
-{
-    public CardController one;
-    public CardController two;
-    public int count;
-    readonly Notifier notifier = new Notifier();
-    public const string ON_MATCHED = "OnMatched";
-    public int CheckMatch()
-    {
-        if (one.Card.type == two.Card.type)
-        {
-            //Matched!!!
-            notifier.Notify(ON_MATCHED, one.Card.type);
-            return one.Card.type;
-        }
-        // Flipback
-        one.Flipback();
-        two.Flipback();
-        return -1;
-    }
 }

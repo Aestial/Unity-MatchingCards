@@ -10,10 +10,12 @@ public class Puzzle
     public int moves;
     public int seconds;
     public List<int> matches;
+    public Pair current;
     public Puzzle (Card[] cards)
     {
         this.cards = cards;
         pairs = cards.Length / 2;
+        current = new Pair();
         matches = new List<int>();
     }
 }

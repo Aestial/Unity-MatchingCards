@@ -32,7 +32,7 @@ public class PuzzleLoader: MonoBehaviour
     {
         string json = JsonUtility.ToJson(puzzle);
         File.WriteAllText(filePath, json);
-        //Debug.Log(json);
+        Debug.Log(json);
     }
     private Puzzle Get()
     {        

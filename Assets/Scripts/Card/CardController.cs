@@ -2,16 +2,16 @@
 using UnityEngine;
 
 public class CardController : MonoBehaviour
-{    
-    public Sprite visible;
-    public Sprite disabled;
+{       
     [SerializeField] Sprite invisible;
     [SerializeField] float showTime;
-    Card card;
+    [SerializeField] Card card;
+    [HideInInspector] public Sprite visible;
+    [HideInInspector] public Sprite disabled;
     SpriteRenderer sr;
     // Notifier
     readonly Notifier notifier = new Notifier();
-    public const string ON_FLIPPED = "OnFlipped";    
+    public const string ON_FLIPPED = "OnFlipped";
     public Card Card
     {
         get { return card; }
@@ -34,18 +34,35 @@ public class CardController : MonoBehaviour
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        notifier.Subscribe(PairController.ON_MATCHED, HandleOnMatched);
+        notifier.Subscribe(PairController.FLIPBACK, HandleFlipBack);
+    }
+    void OnDestroy()
+    {
+        notifier.UnsubcribeAll();
+    }
+    private void HandleOnMatched(object[] args)
+    {
+        int type = (int)args[0];
+        if (card.type == type)
+        {
+            State = CardState.Matched;
+        }
+    }    
+    private void HandleFlipBack(object[] args)
+    {        
+        if (State == CardState.Visible)
+        {
+            StartCoroutine(FlipbackCoroutine());
+        }
     }
     void OnMouseUp()
     {
         if(State == CardState.Invisible)
         {
             State = CardState.Visible;
-            notifier.Notify(ON_FLIPPED, this);
+            notifier.Notify(ON_FLIPPED, this.Card);
         }
-    }
-    public void Flipback()
-    {
-        StartCoroutine(FlipbackCoroutine());
     }
     private IEnumerator FlipbackCoroutine()
     {
@@ -60,6 +77,7 @@ public class CardController : MonoBehaviour
                 sr.sprite = invisible;
                 break;
             case CardState.Visible:
+            case CardState.Matched:
                 sr.sprite = visible;
                 break;
             case CardState.Disabled:
