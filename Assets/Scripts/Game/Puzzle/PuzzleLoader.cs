@@ -4,7 +4,7 @@ using UnityEngine;
 public class PuzzleLoader: Loader<PuzzleLoader>
 {
     // Build parameters
-    [Range(2, 35)] public int pairs;   
+    [Range(3, 15)] public int pairs;   
     Puzzle puzzle;
     PuzzleController controller;    
     void Start()
@@ -34,7 +34,8 @@ public class PuzzleLoader: Loader<PuzzleLoader>
         List<Card> cards = new List<Card>();
         for (int i = 0; i < pairs; i++)
         {
-            for (int j = 0; j < 2; j++)
+            // *** Match number
+            for (int j = 0; j < 3; j++)
             {
                 Card newCard = new Card(i);
                 cards.Add(newCard);

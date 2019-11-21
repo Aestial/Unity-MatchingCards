@@ -14,7 +14,8 @@ public class Puzzle
     public Puzzle (Card[] cards)
     {        
         this.cards = cards;
-        pairs = cards.Length / 2;
+        // *** Match number
+        pairs = cards.Length / 3;
         current = new Pair();
         matches = new List<int>();
         inProgress = true;

@@ -38,13 +38,9 @@ public class PuzzleController : MonoBehaviour
     private void HandleOnFlipped(object[] args)
     {
         Card card = (Card)args[0];
-        CheckCard(card);        
+        pairController.CheckCard(card, UpdateMatches);
         SetScore(++puzzle.moves);
-    }
-    private void CheckCard(Card card)
-    {
-        pairController.CheckCard(card, UpdateMatches);        
-    }
+    }    
     private void UpdateMatches(int match)
     {
         puzzle.matches.Add(match);

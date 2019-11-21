@@ -3,7 +3,6 @@
 [Serializable]
 public class Pair
 {    
-    public Card one;
-    public Card two;
+    public int current;
     public int count;
 }
