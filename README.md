@@ -1,2 +1,2 @@
-# Chilltime-MatchingCards
- Card Matching puzzle exercise
+Matching Cards
+Card Matching puzzle basic game.
