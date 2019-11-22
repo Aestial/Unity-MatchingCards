@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LeaderboardController : MonoBehaviour
 {    
@@ -9,11 +8,7 @@ public class LeaderboardController : MonoBehaviour
     public Leaderboard Leaderboard
     {
         get { return leaderboard; }
-        set
-        {
-            leaderboard = value;
-            //gameList = new List<Game>(leaderboard.games);
-        }
+        set { leaderboard = value; }
     }
     void Awake()
     {

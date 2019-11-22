@@ -34,8 +34,8 @@ public class CardController : MonoBehaviour
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        notifier.Subscribe(PairController.ON_MATCHED, HandleOnMatched);
-        notifier.Subscribe(PairController.FLIPBACK, HandleFlipBack);
+        notifier.Subscribe(MatchController.ON_MATCHED, HandleOnMatched);
+        notifier.Subscribe(MatchController.ON_FLIPBACK, HandleFlipBack);
     }
     void OnDestroy()
     {

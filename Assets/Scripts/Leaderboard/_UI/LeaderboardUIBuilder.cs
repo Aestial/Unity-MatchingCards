@@ -1,37 +1,49 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LeaderboardUIBuilder : MonoBehaviour
 {
     [SerializeField] GameObject prefab;
-    [SerializeField] Transform container;    
+    [SerializeField] Transform container;
+    Leaderboard leaderboard;
     // Notifier
     readonly Notifier notifier = new Notifier();
     void Awake()
     {        
-        notifier.Subscribe(LeaderboardLoader.ON_LEADERBOARD_LOADED, HandleOnLoaded);
+        notifier.Subscribe(LeaderboardLoader.ON_LOADED, HandleOnLoaded);
         notifier.Subscribe(PuzzleController.ON_FINISHED, HandleOnFinished);
     }
     private void HandleOnLoaded(object[] args)
     {
-        Leaderboard leaderboard = (Leaderboard)args[0];
+        leaderboard = (Leaderboard)args[0];
         ShowGames(leaderboard.games.ToArray());
     }
     private void HandleOnFinished(object[] args)
     {
         Game game = (Game)args[0];
-        AddGame(game);        
+        // Sort and show all
+        leaderboard.games.Add(game);
+        ShowGames(leaderboard.games.ToArray());
     }
     private void ShowGames(Game[] games)
-    {   for (int i = 0; i < games.Length; i++)
+    {
+        DeleteAll();
+        for (int i = 0; i < games.Length; i++)
         {
-            AddGame(games[i]);
+            AddGame(games[i], i + 1);
         }
     }
-    private void AddGame(Game game)
+    private void DeleteAll()
+    {
+        if (container.childCount < 0) return;
+        for (int i = 0; i < container.childCount; i++)
+        {
+            Destroy(container.GetChild(i).gameObject);
+        }
+    }
+    private void AddGame(Game game, int index)
     {
         GameObject newGame = Instantiate(prefab, container);
         GameUI gameUI = newGame.GetComponent<GameUI>();
-        gameUI.Set(game);
+        gameUI.Set(game, index);
     }    
 }

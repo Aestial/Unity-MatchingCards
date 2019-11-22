@@ -3,9 +3,12 @@ using System.Collections.Generic;
 
 [Serializable]
 public class Leaderboard
-{
-    //public Game[] games;
+{    
     public List<Game> games;
+    public Leaderboard ()
+    {
+        games = new List<Game>();
+    }
 }
 
 [Serializable]

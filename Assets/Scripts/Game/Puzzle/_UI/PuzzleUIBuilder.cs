@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleUIBuilder : MonoBehaviour
@@ -15,8 +14,9 @@ public class PuzzleUIBuilder : MonoBehaviour
     void Awake()
     {
         notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);
-        notifier.Subscribe(PuzzleLoader.ON_RESTART, HandleOnRestart);
-    }    
+        //notifier.Subscribe(PuzzleLoader.ON_RESTART, HandleOnRestart);
+        notifier.Subscribe(PuzzleController.ON_FINISHED, HandleOnFinished);
+    }
     void OnDestroy()
     {
         notifier.UnsubcribeAll();
@@ -24,14 +24,21 @@ public class PuzzleUIBuilder : MonoBehaviour
     private void HandleOnLoaded(object[] args)
     {
         Puzzle puzzle = (Puzzle)args[0];
-        GameObject[] cardGOs = CreateCardsGO(puzzle.cards);
-        PlaceCards(cardGOs);
+        Create(puzzle);
     }
-    private void HandleOnRestart(object[] args)
+    //private void HandleOnRestart(object[] args)
+    //{
+    //    Puzzle puzzle = (Puzzle)args[0];
+    //    Create(puzzle);
+    //}
+    private void HandleOnFinished(object[] args)
     {
-        Puzzle puzzle = (Puzzle)args[0];
         DeleteCards();
-        GameObject[] cardGOs = CreateCardsGO(puzzle.cards);
+        ResetPlacement();
+    }
+    private void Create(Puzzle puzzle)
+    {
+        GameObject[] cardGOs = CreateGOs(puzzle.cards);
         PlaceCards(cardGOs);
     }
     private void DeleteCards()
@@ -39,20 +46,19 @@ public class PuzzleUIBuilder : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             Destroy(transform.GetChild(i).gameObject); 
-        }
-        ResetPlacement();
+        }        
     }
-    private GameObject[] CreateCardsGO(Card[] cards)
+    private GameObject[] CreateGOs(Card[] cards)
     {
-        List<GameObject> cardGOList = new List<GameObject>();
+        List<GameObject> GOs = new List<GameObject>();
         for (int i = 0; i < cards.Length; i++)
         {
             GameObject newCard = Instantiate(cardPrefab, transform);
             CardController cc = newCard.GetComponent<CardController>();
             cc.Card = cards[i];
-            cardGOList.Add(newCard);
+            GOs.Add(newCard);
         }
-        return cardGOList.ToArray();
+        return GOs.ToArray();
     }
     private void PlaceCards(GameObject[] gameObjects)
     {

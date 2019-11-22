@@ -9,7 +9,7 @@ public abstract class Loader<T> : MonoBehaviour where T : MonoBehaviour
     // Notifier
     protected Notifier notifier = new Notifier();
     public readonly static string ON_LOADED = "OnLoaded" + typeof(T).Name;
-    public readonly static string ON_RESTART = "OnRestart" + typeof(T).Name;
+    //public readonly static string ON_RESTART = "OnRestart" + typeof(T).Name;
     protected void Awake()
     {
         filePath = Path.Combine(Application.persistentDataPath, fileName);

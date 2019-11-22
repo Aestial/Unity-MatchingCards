@@ -1,8 +1,9 @@
 ﻿using System;
 
 [Serializable]
-public class Pair
+public class Match
 {    
     public int current;
-    public int count;
+	public int count;
+    public bool matched;
 }

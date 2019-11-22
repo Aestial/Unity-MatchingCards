@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class PuzzleController : MonoBehaviour
 {    
-    [SerializeField] Text scoreText;
+    [SerializeField] Text movesText;
     [SerializeField] Text timeText;
-    [SerializeField] string scorePrefix;
+    [SerializeField] string movesPrefix = "Moves";
     [SerializeField] string timePrefix;
-    [SerializeField] PairController pairController;
+    [SerializeField] MatchController matchController;    
     // SerializeField for watching on Inspector
     [SerializeField] Puzzle puzzle;    
     // Notifier
@@ -21,15 +21,17 @@ public class PuzzleController : MonoBehaviour
         {
             puzzle = value;
             // TODO: Validate            
-            pairController.Set(puzzle.current);
-            SetScore(puzzle.moves);
+            matchController.Set(puzzle.current);
+            SetMoves(puzzle.moves);
             StopAllCoroutines();
             StartCoroutine(UpdateTimerCoroutine());
         }
     }
     void Awake()
-    {
+    {        
         notifier.Subscribe(CardController.ON_FLIPPED, HandleOnFlipped);
+        notifier.Subscribe(MatchController.ON_MATCHED, HandleOnMatched);
+        notifier.Subscribe(MatchController.ON_FLIPBACK, HandleOnFlipback);
     }
     void OnDestroy()
     {
@@ -38,19 +40,28 @@ public class PuzzleController : MonoBehaviour
     private void HandleOnFlipped(object[] args)
     {
         Card card = (Card)args[0];
-        pairController.CheckCard(card, UpdateMatches);
-        SetScore(++puzzle.moves);
-    }    
+        matchController.CheckCard(card);        
+    }
+    private void HandleOnMatched(object[] args)
+    {
+        int type = (int)args[0];
+        UpdateMatches(type);        
+    }
+    private void HandleOnFlipback(object[] args)
+    {
+        SetMoves(++puzzle.moves);
+    }   
     private void UpdateMatches(int match)
     {
         puzzle.matches.Add(match);
         int count = puzzle.matches.Count;
-        if (count >= puzzle.pairs)
+        if (count >= puzzle.totalMatches)
         {
+            // TODO GAME OVER
             puzzle.inProgress = false;
-            int score = puzzle.moves;
-            int time = puzzle.seconds;
-            // TODO: Check this
+            // TODO: FIX this
+            int score = puzzle.score;
+            int time = puzzle.seconds;            
             User user = new User("Player Name");
             Game game = new Game(user, score, time);
             notifier.Notify(ON_FINISHED, game);
@@ -60,12 +71,13 @@ public class PuzzleController : MonoBehaviour
     {
         while (puzzle.inProgress)
         {
-            yield return new WaitForSecondsRealtime(1f);
-            timeText.text = timePrefix + ++puzzle.seconds;
+            yield return new WaitForSecondsRealtime(1f);            
+            timeText.text = timePrefix + puzzle.seconds++;
+            puzzle.score = (puzzle.moves * 5) + puzzle.seconds;
         }
     }
-    private void SetScore(int score)
+    private void SetMoves(int score)
     {
-        scoreText.text = scorePrefix + score;
+        movesText.text = movesPrefix + score;
     }
 }
