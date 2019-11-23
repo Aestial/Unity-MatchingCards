@@ -27,6 +27,7 @@ public class PuzzleLoader: Loader<PuzzleLoader>
         User user = (User)args[0];
         SetFilePath(user.filename);        
         puzzle = Get(Create);
+        if (!puzzle.inProgress) puzzle = Create();
         controller.Puzzle = puzzle;
         notifier.Notify(ON_LOADED, puzzle);
     }

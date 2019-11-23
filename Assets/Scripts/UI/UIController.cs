@@ -29,9 +29,8 @@ public class UIController : MonoBehaviour
         notifier.UnsubcribeAll();
     }
     private void HandleOnLoaded(object[] args)
-    {
-        Puzzle puzzle = (Puzzle)args[0];
-        gameOverCanvas.enabled = !puzzle.inProgress;
+    {        
+        gameOverCanvas.enabled = false;
     }    
     private void HandleOnFinished(object[] args)
     {     
