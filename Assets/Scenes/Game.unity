@@ -5011,7 +5011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: puzzle.json
-  matches: 4
+  matches: 10
 --- !u!4 &2048490306
 Transform:
   m_ObjectHideFlags: 0
@@ -5072,7 +5072,7 @@ MonoBehaviour:
     type: 3}
   offset: {x: -3.25, y: -0.25}
   spacing: {x: 1.5, y: 1.75}
-  columns: 4
+  columns: 6
 --- !u!1 &2098039166
 GameObject:
   m_ObjectHideFlags: 0
