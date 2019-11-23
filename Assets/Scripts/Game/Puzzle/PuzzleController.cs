@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PuzzleController : MonoBehaviour
@@ -37,6 +35,10 @@ public class PuzzleController : MonoBehaviour
         notifier.Subscribe(UIController.ON_PAUSE, HandleOnPause);
         notifier.Subscribe(UserController.ON_LOGIN, HandleOnLogin);
     }
+    void OnDestroy()
+    {
+        notifier.UnsubcribeAll();
+    }
     void Update()
     {
         if (puzzle.inProgress)
@@ -49,10 +51,6 @@ public class PuzzleController : MonoBehaviour
                 SetTimer();
             }
         }        
-    }
-    void OnDestroy()
-    {
-        notifier.UnsubcribeAll();        
     }    
     private void HandleOnFlipped(object[] args)
     {

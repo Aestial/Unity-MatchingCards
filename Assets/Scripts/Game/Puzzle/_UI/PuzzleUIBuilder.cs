@@ -13,8 +13,7 @@ public class PuzzleUIBuilder : MonoBehaviour
     readonly Notifier notifier = new Notifier();
     void Awake()
     {
-        notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);
-        //notifier.Subscribe(PuzzleLoader.ON_RESTART, HandleOnRestart);
+        notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);        
         notifier.Subscribe(PuzzleController.ON_FINISHED, HandleOnFinished);
     }
     void OnDestroy()
@@ -25,12 +24,7 @@ public class PuzzleUIBuilder : MonoBehaviour
     {
         Puzzle puzzle = (Puzzle)args[0];
         Create(puzzle);
-    }
-    //private void HandleOnRestart(object[] args)
-    //{
-    //    Puzzle puzzle = (Puzzle)args[0];
-    //    Create(puzzle);
-    //}
+    }    
     private void HandleOnFinished(object[] args)
     {
         DeleteCards();

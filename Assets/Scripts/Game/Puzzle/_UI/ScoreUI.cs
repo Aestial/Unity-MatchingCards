@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreUI : MonoBehaviour
@@ -11,14 +10,14 @@ public class ScoreUI : MonoBehaviour
     void Awake()
     {
         notifier.Subscribe(PuzzleController.ON_FINISHED, HandleOnFinished);
-    }    
+    }
+    void OnDestroy()
+    {
+        notifier.UnsubcribeAll();
+    }
     private void HandleOnFinished(object[] args)
     {
         Game game = (Game)args[0];
         scoreText.text = scorePrefix + game.puzzle.score;
-    }
-    void OnDestroy()
-    {
-        notifier.UnsubcribeAll();            
-    }
+    }    
 }

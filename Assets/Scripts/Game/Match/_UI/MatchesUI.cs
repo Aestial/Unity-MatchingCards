@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MatchesUI : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class MatchesUI : MonoBehaviour
     void Awake()
     {        
         notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);
-        //notifier.Subscribe(PuzzleLoader.ON_RESTART, HandleOnRestart);
         notifier.Subscribe(MatchController.ON_MATCHED, HandleOnMatched);
     }
     void OnDestroy()
@@ -22,11 +20,7 @@ public class MatchesUI : MonoBehaviour
         Puzzle puzzle = (Puzzle)args[0];
         DeleteMatches();
         ShowMatches(puzzle);
-    }
-    //private void HandleOnRestart(object[] args)
-    //{
-    //    DeleteMatches();
-    //}
+    }   
     private void HandleOnMatched(object[] args)
     {
         int type = (int)args[0];

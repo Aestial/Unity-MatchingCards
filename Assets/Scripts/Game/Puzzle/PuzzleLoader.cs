@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleLoader: Loader<PuzzleLoader>
@@ -14,10 +13,14 @@ public class PuzzleLoader: Loader<PuzzleLoader>
         notifier.Notify(ON_LOADED, puzzle);
         controller.Puzzle = puzzle;
     }
-    void Awake()
+    new void Awake()
     {
         controller = GetComponent<PuzzleController>();
         notifier.Subscribe(UserController.ON_LOGIN, HandleOnLogin);
+    }
+    void OnDestroy()
+    {
+        notifier.UnsubcribeAll();
     }
     private void HandleOnLogin(object[] args)
     {

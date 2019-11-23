@@ -61,7 +61,7 @@ public class CardController : MonoBehaviour
         if(State == CardState.Invisible)
         {
             State = CardState.Visible;
-            notifier.Notify(ON_FLIPPED, this.Card);
+            notifier.Notify(ON_FLIPPED, Card);
         }
     }
     private IEnumerator FlipbackCoroutine()

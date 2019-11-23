@@ -1121,7 +1121,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -791.0649}
+  m_AnchoredPosition: {x: 0, y: -0.0031118193}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &463879365
@@ -2098,7 +2098,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -908.3308}
+  m_AnchoredPosition: {x: 0, y: -0.0037652617}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &774470817
@@ -3407,8 +3407,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1551374401}
   - component: {fileID: 1551374402}
-  - component: {fileID: 1551374403}
-  - component: {fileID: 1551374404}
   m_Layer: 0
   m_Name: UserManager
   m_TagString: Untagged
@@ -3448,31 +3446,6 @@ MonoBehaviour:
     bestTime: 0
     bestScore: 0
   inputField: {fileID: 447575834}
---- !u!114 &1551374403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551374400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0602d6f143af4f919dee1fda0723033, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fileName: users.json
---- !u!114 &1551374404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551374400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08f8f85a9f54b43a8a4f647c1e57ce26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1556426530
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ public enum CardState
     Matched,
     Disabled
 }
-
 [Serializable]
 public class Card
 {

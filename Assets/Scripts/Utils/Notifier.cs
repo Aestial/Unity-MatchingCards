@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class Notifier
 {
-	Dictionary<string, NotificationCenter.NotifyDelegate> subscriptions;
+	readonly Dictionary<string, NotificationCenter.NotifyDelegate> subscriptions;
 
 	public Notifier() {
 		subscriptions = new Dictionary<string, NotificationCenter.NotifyDelegate>();

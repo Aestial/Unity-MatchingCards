@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UserController : Singleton<UserController>
+public class UserController : MonoBehaviour
 {
     [SerializeField] User user;
     [SerializeField] InputField inputField;
@@ -21,13 +21,5 @@ public class UserController : Singleton<UserController>
     {
         string codename = inputField.text;
         LogIn(codename);
-    }
-    void Start()
-    {
-        
     }   
-    void Update()
-    {
-        
-    }
 }

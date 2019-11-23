@@ -12,6 +12,10 @@ public class LeaderboardUIBuilder : MonoBehaviour
         notifier.Subscribe(LeaderboardLoader.ON_LOADED, HandleOnLoaded);
         notifier.Subscribe(PuzzleController.ON_FINISHED, HandleOnFinished);
     }
+    void OnDestroy()
+    {
+        notifier.UnsubcribeAll();
+    }
     private void HandleOnLoaded(object[] args)
     {
         leaderboard = (Leaderboard)args[0];
