@@ -31,7 +31,7 @@ public class UIController : MonoBehaviour
     private void HandleOnLoaded(object[] args)
     {
         Puzzle puzzle = (Puzzle)args[0];
-        gameOverCanvas.enabled = puzzle.inProgress;
+        gameOverCanvas.enabled = !puzzle.inProgress;
     }    
     private void HandleOnFinished(object[] args)
     {     

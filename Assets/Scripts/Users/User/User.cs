@@ -9,7 +9,7 @@ public class User
     public int bestScore;    
     public User(string codename)
     {
-        this.codename = codename;
-        filename = codename + ".json";
+        this.codename = codename;        
+        filename = codename.GetHashCode() + ".json";
     }
 }

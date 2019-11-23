@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 
 public class PuzzleController : MonoBehaviour
-{    
+{
+    [SerializeField] Text usernameText;
     [SerializeField] Text movesText;
     [SerializeField] Text timeText;
     [SerializeField] string movesPrefix = "Moves";
@@ -76,6 +77,7 @@ public class PuzzleController : MonoBehaviour
     private void HandleOnLogin(object[] args)
     {
         user = (User)args[0];
+        usernameText.text = user.codename;
     }
     private void UpdateMatches(int match)
     {
