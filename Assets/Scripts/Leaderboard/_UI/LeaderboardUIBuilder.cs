@@ -19,9 +19,8 @@ public class LeaderboardUIBuilder : MonoBehaviour
     }
     private void HandleOnFinished(object[] args)
     {
-        Game game = (Game)args[0];
-        // Sort and show all
-        leaderboard.games.Add(game);
+        //Game game = (Game)args[0];
+        // Sort and show all        
         ShowGames(leaderboard.games.ToArray());
     }
     private void ShowGames(Game[] games)

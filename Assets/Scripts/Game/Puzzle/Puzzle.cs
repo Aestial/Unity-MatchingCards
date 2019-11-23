@@ -11,12 +11,14 @@ public class Puzzle
     public bool inProgress;
     public int totalMatches;
     public Match current = new Match();
-    public List<int> matches = new List<int>();    
+    public List<int> matches;
     public Puzzle (Card[] cards)
     {        
         this.cards = cards;
+        current = new Match();
+        matches = new List<int>();
         // *** Match number
         totalMatches = cards.Length / 3;
-        inProgress = true;
+        inProgress = true;                
     }
 }

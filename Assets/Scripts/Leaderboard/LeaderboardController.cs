@@ -25,6 +25,6 @@ public class LeaderboardController : MonoBehaviour
     }
     private void AddGame(Game game)
     {
-        leaderboard.games.Add(game);        
+        leaderboard.games.Add(game);  
     }        
 }

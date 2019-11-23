@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleLoader: Loader<PuzzleLoader>
@@ -13,16 +14,23 @@ public class PuzzleLoader: Loader<PuzzleLoader>
         notifier.Notify(ON_LOADED, puzzle);
         controller.Puzzle = puzzle;
     }
-    void Start()
+    void Awake()
     {
         controller = GetComponent<PuzzleController>();
+        notifier.Subscribe(UserController.ON_LOGIN, HandleOnLogin);
+    }
+    private void HandleOnLogin(object[] args)
+    {
+        User user = (User)args[0];
+        SetFilePath(user.filename);        
         puzzle = Get(Create);
-        notifier.Notify(ON_LOADED, puzzle);  
         controller.Puzzle = puzzle;
+        notifier.Notify(ON_LOADED, puzzle);
     }
     void OnApplicationQuit()
     {
-        Save(puzzle);
+        if (puzzle != null)
+            Save(puzzle);
     }    
     private Puzzle Create()
     {

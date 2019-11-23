@@ -2,14 +2,15 @@
 
 public class MatchController : MonoBehaviour
 {
+    Puzzle puzzle;
     Match match;
-    int index;
     readonly Notifier notifier = new Notifier();
     public const string ON_MATCHED = "OnMatched";
     public const string ON_FLIPBACK = "Flipback";
-    public void Set(Match match)
+    public void Set(Puzzle puzzle)
     {
-        this.match = match;
+        this.puzzle = puzzle;
+        match = puzzle.current;
     }    
     public void CheckCard(Card card)
     {
@@ -36,10 +37,11 @@ public class MatchController : MonoBehaviour
         }        
     }
     private void Matched()
-    {        
+    {
         match.count = 0;
         match.matched = false;        
-        notifier.Notify(ON_MATCHED, match.current, index++);
+        int index = puzzle.matches.Count;
+        notifier.Notify(ON_MATCHED, match.current, index);
     }
     private void Flipback()
     {

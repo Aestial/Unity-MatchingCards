@@ -10,17 +10,14 @@ public class Leaderboard
         games = new List<Game>();
     }
 }
-
 [Serializable]
 public class Game
 {
     public User user;
-    public int time;
-    public int score;
-    public Game(User user, int score, int time)
+    public Puzzle puzzle;
+    public Game(User user, Puzzle puzzle)
     {
         this.user = user;        
-        this.score = score;
-        this.time = time;
+        this.puzzle = puzzle;
     }
 }

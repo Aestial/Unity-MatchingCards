@@ -1,35 +1,37 @@
 ﻿using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIController : MonoBehaviour
 {
     [SerializeField] Canvas loginCanvas;
     [SerializeField] Canvas gameCanvas;
     [SerializeField] Canvas gameOverCanvas;
     [SerializeField] Canvas leaderBoardCanvas;
-    Notifier notifier = new Notifier();
-    public void ShowLeaderboard()
+    readonly Notifier notifier = new Notifier();
+    public const string ON_PAUSE = "OnPause";
+    public const string ON_LOGOUT = "OnLogout";
+    public void HideLogin()
     {
-        leaderBoardCanvas.enabled = true;
-        gameCanvas.enabled = false;
+        loginCanvas.enabled = false;
     }
-    public void ShowGame()
+    public void ShowLeaderboard(bool isShowing)
     {
-        gameCanvas.enabled = true;
-        leaderBoardCanvas.enabled = false;
+        notifier.Notify(ON_PAUSE, isShowing);
+        leaderBoardCanvas.enabled = isShowing;
+        gameCanvas.enabled = !isShowing;
     }
-    void Start()
+    void Awake()
     {
         notifier.Subscribe(PuzzleLoader.ON_LOADED, HandleOnLoaded);
         notifier.Subscribe(PuzzleController.ON_FINISHED, HandleOnFinished);
-    }
-    private void HandleOnLoaded(object[] args)
-    {        
-        gameOverCanvas.enabled = false;
     }
     void OnDestroy()
     {
         notifier.UnsubcribeAll();
     }
+    private void HandleOnLoaded(object[] args)
+    {        
+        gameOverCanvas.enabled = false;
+    }    
     private void HandleOnFinished(object[] args)
     {     
         gameOverCanvas.enabled = true;
