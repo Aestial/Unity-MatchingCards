@@ -2,13 +2,10 @@
 using UnityEngine;
 
 public class CardController : MonoBehaviour
-{       
-    [SerializeField] Sprite invisible;
-    [SerializeField] float showTime;
+{
     [SerializeField] Card card;
-    [HideInInspector] public Sprite visible;
-    [HideInInspector] public Sprite disabled;
-    SpriteRenderer sr;
+    [SerializeField] CardDisplay display;
+    [SerializeField] float showTime;
     // Notifier
     readonly Notifier notifier = new Notifier();
     public const string ON_FLIPPED = "OnFlipped";
@@ -18,7 +15,7 @@ public class CardController : MonoBehaviour
         set
         {
             card = value;
-            SetSprites(card.type);
+            display.GetAsset(card.type);
             State = card.state;
         }
     }
@@ -28,12 +25,19 @@ public class CardController : MonoBehaviour
         set
         {
             card.state = value;
-            Draw(value);
+            display.Turn(value);
+        }
+    }
+    void OnMouseUp()
+    {
+        if (State == CardState.Invisible)
+        {
+            State = CardState.Visible;
+            notifier.Notify(ON_FLIPPED, Card);
         }
     }
     void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
         notifier.Subscribe(MatchController.ON_MATCHED, HandleOnMatched);
         notifier.Subscribe(MatchController.ON_FLIPBACK, HandleFlipBack);
     }
@@ -55,39 +59,10 @@ public class CardController : MonoBehaviour
         {
             StartCoroutine(FlipbackCoroutine());
         }
-    }
-    void OnMouseUp()
-    {
-        if(State == CardState.Invisible)
-        {
-            State = CardState.Visible;
-            notifier.Notify(ON_FLIPPED, Card);
-        }
-    }
+    }    
     private IEnumerator FlipbackCoroutine()
     {
         yield return new WaitForSeconds(showTime);
         State = CardState.Invisible;        
-    }
-    private void Draw(CardState state)
-    {
-        switch (state)
-        {
-            case CardState.Invisible:
-                sr.sprite = invisible;
-                break;
-            case CardState.Visible:
-            case CardState.Matched:
-                sr.sprite = visible;
-                break;
-            case CardState.Disabled:
-                sr.sprite = disabled;
-                break;
-        }
-    }
-    private void SetSprites(int type)
-    {
-        visible = CardSprites.Instance.sprites[type].unlocked;
-        disabled = CardSprites.Instance.sprites[type].locked;
     }
 }

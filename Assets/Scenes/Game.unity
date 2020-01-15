@@ -2314,7 +2314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.18039216, g: 0.14117648, b: 0.14509805, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2625,6 +2625,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 997411206}
+  - component: {fileID: 997411207}
   - component: {fileID: 997411205}
   m_Layer: 0
   m_Name: AssetsManager
@@ -2661,6 +2662,20 @@ Transform:
   m_Father: {fileID: 1819541914}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &997411207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997411204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c50a8334f0b149b8b605ce4ff02347d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: Monsters
+  monsters: []
 --- !u!1 &1018684659
 GameObject:
   m_ObjectHideFlags: 0
@@ -5068,7 +5083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ed6693a07d14d5788e45fcfca0d296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 4507645332644053481, guid: 8d2218ee34e884cbfb88d986e0686fa6,
+  cardPrefab: {fileID: 4713053495302201222, guid: 832b3ca67180b48b1b8215917ccb9651,
     type: 3}
   offset: {x: -3.25, y: -0.25}
   spacing: {x: 1.5, y: 1.75}
