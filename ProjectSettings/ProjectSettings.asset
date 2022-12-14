@@ -16,7 +16,7 @@ PlayerSettings:
   productName: CardMatching
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.11320752, g: 0.019757915, b: 0.06619766, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.29346672, g: 0.3584906, b: 0.21813814, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
